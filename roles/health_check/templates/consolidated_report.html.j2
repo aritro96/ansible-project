@@ -1,0 +1,106 @@
+<html>
+<head>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      text-align: center;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .ok {
+      color: green;
+      font-weight: bold;
+    }
+
+    .notok {
+      color: red;
+      font-weight: bold;
+    }
+    .na {
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Server Health Check Report</h2>
+
+<table>
+  <tr>
+    <th>Server Name</th>
+    <th>CPU</th>
+    <th>Memory</th>
+    <th>Disk</th>
+    <th>NTP_Sync</th>
+
+    {% for svc in services %}
+    <th>{{ svc }}</th>
+    {% endfor %}
+  </tr>
+
+  {% for host in groups['all'] %}
+  <tr>
+
+    <td>{{ host }}</td>
+
+    <!-- CPU -->
+    <td class="{{ 'ok' if hostvars[host].cpu_status == 'OK' else 'notok' }}">
+      {{ hostvars[host].cpu_status | default('N/A') }}
+    </td>
+
+    <!-- Memory -->
+    <td class="{{ 'ok' if hostvars[host].memory_status == 'OK' else 'notok' }}">
+      {{ hostvars[host].memory_status | default('N/A') }}
+    </td>
+
+    <!-- Disk -->
+    <td>
+    {% set alerts = hostvars[host].disk_alerts | default([]) %}
+
+    {% if alerts | length == 0 %}
+      <span class="ok">OK</span>
+    {% else %}
+      <span class="notok">{{ alerts | join(', ') }}</span>
+    {% endif %}
+    </td>
+
+    <!-- NTP_Sync -->
+    <td class="{{ 'ok' if hostvars[host].ntp_health == 'OK' else 'notok' }}">
+      {{ hostvars[host].ntp_health | default('N/A') }}
+    </td>
+
+    <!-- Services -->
+	{% for svc in services %}
+
+      {% set ns = namespace(status='NA') %}
+
+      {% for service in hostvars[host].service_report | default([]) %}
+        {% if service.name == svc %}
+          {% set ns.status = service.status %}
+        {% endif %}
+      {% endfor %}
+
+      <td class="{% if ns.status == 'active' %}ok{% elif ns.status == 'NA' %}na{% else %}notok{% endif %}">
+        {{ ns.status }}
+      </td>
+
+    {% endfor %}
+
+  </tr>
+  {% endfor %}
+
+</table>
+
+</body>
+</html>

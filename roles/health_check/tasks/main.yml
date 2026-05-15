@@ -1,0 +1,52 @@
+---
+- name: Import CPU checks
+  import_tasks: cpu.yml
+
+- name: Import Memory checks
+  import_tasks: mem.yml
+
+- name: Import Disk checks
+  import_tasks: disk.yml
+
+- name: Import NTP checks
+  import_tasks: ntp.yml
+
+- name: Check services
+  include_tasks: service.yml
+  loop: "{{ services }}"
+
+#- name: Generate HTML report
+#  template:
+#    src: report.html.j2
+#    dest: "/tmp/{{ inventory_hostname }}.html"
+#  delegate_to: localhost
+#
+#- name: Send health report
+#  mail:
+#    host: 127.0.0.1
+#    port: 25
+#    to: aritro.rmc@gmail.com
+#    subject: "Health Report - {{ inventory_hostname }}"
+#    subtype: html
+#    body: "{{ lookup('file', '/tmp/' + inventory_hostname + '.html') }}"
+#  delegate_to: localhost
+
+- name: Generate consolidated report
+  template:
+    src: consolidated_report.html.j2
+    dest: "/tmp/health_report.html"
+  delegate_to: localhost
+  run_once: true
+  
+- name: Send consolidated health check report
+  shell: |
+    (
+      echo "Subject: Server Health Check Report"
+      echo "To: aritro.rmc@gmail.com"
+      echo "MIME-Version: 1.0"
+      echo "Content-Type: text/html"
+      echo ""
+      cat /tmp/health_report.html
+    ) | /usr/sbin/sendmail -t
+  delegate_to: localhost
+  run_once: true

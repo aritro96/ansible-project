@@ -1,0 +1,12 @@
+cpu_threshold: 80
+mem_threshold: 80
+disk_threshold: 35
+
+services:
+  - sshd
+  - chronyd
+  - rsyslog
+  - crond
+  - httpd
+  - mariadb
+  - auditd

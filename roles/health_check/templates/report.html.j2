@@ -1,0 +1,66 @@
+<html>
+<body>
+
+<h2>Server Health Report - {{ inventory_hostname }}</h2>
+
+<table border="1">
+
+<tr>
+<td>CPU Usage</td>
+<td>{{ cpu_used }}%</td>
+
+{% if cpu_status == "OK" %}
+<td style="color:green;">OK</td>
+{% else %}
+<td style="color:red;">NOT OK</td>
+{% endif %}
+
+</tr>
+
+<tr>
+<td>Memory Usage</td>
+<td>{{ memory_percent }}%</td>
+
+{% if memory_status == "OK" %}
+<td style="color:green;">OK</td>
+{% else %}
+<td style="color:red;">NOT OK</td>
+{% endif %}
+
+</tr>
+
+<tr>
+<td>NTP Sync</td>
+<td>{{ time_sync_status.stdout }}</td>
+
+{% if ntp_health == "OK" %}
+<td style="color:green;">OK</td>
+{% else %}
+<td style="color:red;">NOT OK</td>
+{% endif %}
+
+</tr>
+
+</table>
+
+<h3>Services</h3>
+
+<table border="1">
+
+{% for svc in service_report %}
+<tr>
+<td>{{ svc.name }}</td>
+
+{% if svc.status == "active" %}
+<td style="color:green;">OK</td>
+{% else %}
+<td style="color:red;">{{ svc.status }}</td>
+{% endif %}
+
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

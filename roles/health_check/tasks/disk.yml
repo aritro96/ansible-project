@@ -1,0 +1,18 @@
+- name: Initialize disk alerts
+  set_fact:
+    disk_alerts: []
+
+- name: Check all mounted filesystems
+  set_fact:
+    disk_alerts: "{{ disk_alerts + [ item.mount ~ ' (' ~ usage ~ '%)' ] }}"
+  vars:
+    usage: >-
+      {{
+        ((item.size_total - item.size_available)
+        / item.size_total * 100) | round(2)
+      }}
+  loop: "{{ ansible_mounts }}"
+  when:
+    - item.size_total is defined
+    - item.size_total | float > 0
+    - usage | float > (disk_threshold | float)

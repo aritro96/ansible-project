@@ -1,0 +1,9 @@
+---
+- name: Checking percent of used memory
+  shell: "free | awk 'NR==2 {print $3/$2}'"
+  register: mem_used
+
+- name: Set memory status
+  set_fact:
+    memory_status: "{{ 'OK' if (mem_used.stdout | float * 100) < mem_threshold else 'Not OK' }}"
+    memory_percent: "{{ mem_used.stdout | float * 100 }}" 

@@ -1,0 +1,8 @@
+---
+- name: Checking time-syncronization
+  shell: "timedatectl | grep sync | awk '{print $4}'"
+  register: time_sync_status 
+
+- name: Set NTP status
+  set_fact:
+    ntp_health: "{{ 'OK' if time_sync_status.stdout == 'yes' else 'NOT OK' }}"

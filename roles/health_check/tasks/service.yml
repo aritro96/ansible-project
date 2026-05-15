@@ -1,0 +1,35 @@
+#---
+#- name: Check service {{ item }}
+#  shell: "systemctl is-active {{ item }}"
+#  register: service_check
+#  ignore_errors: true
+#
+#- name: Build service report
+#  set_fact:
+#    service_report: "{{ service_report | default([]) + [ {
+#      'name': item,
+#      'status': service_check.stdout | default('NA')
+#    } ] }}"
+
+---
+
+- name: Check if service exists
+  shell: "systemctl list-unit-files | grep -w '^{{ item }}.service'"
+  register: service_available
+  ignore_errors: true
+
+- name: Check service {{ item }}
+  shell: "systemctl is-active {{ item }}"
+  register: service_check
+  ignore_errors: true
+  when: service_available.rc == 0
+
+- name: Build service report
+  set_fact:
+    service_report: "{{ service_report | default([]) + [ {
+      'name': item,
+      'status': (
+	  'NA' if service_available.rc != 0
+          else service_check.stdout
+      )
+    } ] }}"

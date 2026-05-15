@@ -1,0 +1,12 @@
+---
+- name: Checking the CPU percentage
+  shell: "top -bn1 | grep Cpu | awk -F ',' '{print $4}' | tr -d 'id'"
+  register: cpu_free
+
+- name: Set CPU status
+  set_fact:
+    cpu_status: "{{ 'OK' if (100 - cpu_free.stdout | float) < cpu_threshold else 'NOT OK' }}"
+
+- name: Set CPU used value
+  set_fact:
+    cpu_used: "{{ 100 - cpu_free.stdout | float }}"
