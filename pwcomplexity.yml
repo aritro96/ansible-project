@@ -1,0 +1,6 @@
+---
+- name: Enforcing password complexity 
+  hosts: ansiblehost.example.com 
+  
+  roles:
+    - password_policy
