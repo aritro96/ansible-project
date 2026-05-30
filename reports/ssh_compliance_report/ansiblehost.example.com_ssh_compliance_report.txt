@@ -1,0 +1,23 @@
+SSH Compliance Report
+=======================
+
+Hostname: ansiblehost.example.com
+Generated on: 2026-05-25 15:34:14
+
+=======================
+
+Service: PASS
+Port: PASS
+
+=======================
+
+PermitRootLogin: PASS
+PasswordAuthentication: PASS
+LoginGraceTime: PASS
+ClientAliveInterval: PASS
+MaxAuthTries: PASS
+
+OVERALL RESULT
+=======================
+
+  PASS

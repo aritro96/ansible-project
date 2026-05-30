@@ -21,7 +21,7 @@
 - name: Generate compliance report
   template:
     src: compliance.j2
-    dest: "/reports/auditcompliance/{{ inventory_hostname }}_{{ ansible_date_time.date }}"
+    dest: "reports/auditcompliance/{{ inventory_hostname }}_{{ ansible_date_time.date }}"
     mode: 0644
     owner: root
     group: root

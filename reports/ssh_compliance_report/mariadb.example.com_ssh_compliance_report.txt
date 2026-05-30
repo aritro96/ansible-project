@@ -1,0 +1,23 @@
+SSH Compliance Report
+=======================
+
+Hostname: mariadb.example.com
+Generated on: 2026-05-23 01:27:22
+
+=======================
+
+Service: PASS
+Port: PASS
+
+=======================
+
+PermitRootLogin: PASS
+PasswordAuthentication: PASS
+LoginGraceTime: PASS
+ClientAliveInterval: PASS
+MaxAuthTries: PASS
+
+OVERALL RESULT
+=======================
+
+  PASS

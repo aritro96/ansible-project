@@ -41,4 +41,4 @@ Minimum Length of password: {{ logindef_values.PASS_MIN_LEN }}
 -------------------------------------------------------
 {% set all_pass = validation.values() | list | unique == ['PASS'] and pam_config_status == 'PASS' %}
 
-OVERALL STATUS: {{ 'PASS' if all_pass else 'FAIL' }}
+OVERALL RESULTS: {{ 'PASS' if all_pass else 'FAIL' }}

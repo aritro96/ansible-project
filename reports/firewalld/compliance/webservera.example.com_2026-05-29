@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------
+                          Firewall Compliance Report
+-------------------------------------------------------------------------------
+
+Hostname: webservera.example.com
+Generated On: 2026-05-29 11:27:58
+
+-------------------------------------------------------------------------------
+
+Firewall service running:                  PASS
+Firewall service is enabled:               PASS
+
+-------------------------------------------------------------------------------
+
+Are only designated ports open?            PASS
+Are only designated services allowed?      PASS
+Is the default zone correctly selected?    PASS
+
+-------------------------------------------------------------------------------
+
+
+OVERALL STATUS:                            PASS

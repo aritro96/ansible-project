@@ -17,7 +17,6 @@ LoginGraceTime: {{ sshd_config.logingracetime }}
 ClientAliveInterval: {{ sshd_config.clientaliveinterval }}
 MaxAuthTries: {{ sshd_config.maxauthtries }}
 
-OVERALL RESULT
 =======================
 
 {% set all_pass = 
@@ -29,4 +28,6 @@ OVERALL RESULT
   sshd_config.clientaliveinterval == "PASS" and
   sshd_config.maxauthtries == "PASS" 
   %}
-  {{ 'PASS' if all_pass else 'FAIL' }}
+OVERALL RESULT: {{ 'PASS' if all_pass else 'FAIL' }}
+
+

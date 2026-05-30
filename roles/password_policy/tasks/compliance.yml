@@ -121,7 +121,7 @@
 - name: Generate the pwcomplexity report
   template:
     src: pwcomplex_compliance_report.j2
-    dest: /reports/pwcomplexity_reports/{{ inventory_hostname }}_{{ ansible_date_time.date }}
+    dest: reports/pwcomplexity_reports/{{ inventory_hostname }}_{{ ansible_date_time.date }}
     mode: 0644
     owner: root
     group: root

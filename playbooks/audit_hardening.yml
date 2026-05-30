@@ -1,0 +1,7 @@
+---
+- name: Hardening auditd
+  hosts: ansiblehost.example.com
+  gather_facts: true
+ 
+  roles:
+    - auditd
